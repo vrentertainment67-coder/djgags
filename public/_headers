@@ -11,3 +11,7 @@
 
 /images/*
   Cache-Control: public, max-age=604800
+
+# NOTE: www → apex is NOT handled here. Workers Static Assets only accepts
+# relative URLs in _redirects, so that fold is a Cloudflare Redirect Rule
+# on the zone instead (see README → Deploying).

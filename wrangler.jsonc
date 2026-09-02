@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "djgags",
+  "compatibility_date": "2026-09-03",
+  // Assets-only Worker: no `main` script needed, Cloudflare serves dist/
+  // directly. Workers is the recommended target for new projects; Pages is
+  // in maintenance for new deploys.
+  "assets": {
+    "directory": "./dist",
+    // Astro emits a real 404.html, so serve it rather than an SPA fallback.
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
