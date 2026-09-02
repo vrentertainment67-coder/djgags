@@ -73,22 +73,42 @@ at the endpoint and delete the submit handler at the bottom of the file.
 
 ## Deploying
 
-Static output — `dist/` can go anywhere. Recommended: **Cloudflare Pages** (free,
-fast in India, and DNS in the same place).
+Static output. `wrangler.toml`, `public/_headers` and `public/_redirects` are
+already configured for **Cloudflare Pages** (free, fast in India, DNS in the same
+place). The git repo is initialised with `origin` set to
+`github.com/vrentertainment67-coder/djgags` — it just needs creating and pushing.
 
-1. Push this repo to GitHub.
-2. Cloudflare Pages → *Create project* → connect the repo.
-   - Build command `npm run build`, output directory `dist`.
-3. Add the custom domain `djgags.com` (and `www`) in Pages → *Custom domains*.
-4. **At GoDaddy**, change the nameservers to the two Cloudflare gives you.
-   Cloudflare then issues the certificate and points the records automatically.
+### 1. Create the GitHub repo and push
 
-If you would rather leave DNS at GoDaddy, use Netlify instead and add GoDaddy
-`CNAME` / `A` records to the values Netlify shows — but nameserver delegation is
-fewer moving parts.
+Create an **empty** repo named `djgags` at https://github.com/new (no README, no
+.gitignore — this repo already has both), then:
 
-Update `site` in [`astro.config.mjs`](astro.config.mjs) if the domain ever changes;
-it drives the sitemap and canonical URLs.
+```bash
+git push -u origin main
+```
+
+### 2. Connect Cloudflare Pages
+
+Either through the dashboard — *Workers & Pages* → *Create* → *Pages* → connect
+the repo, build command `npm run build`, output directory `dist` — or from here:
+
+```bash
+npx wrangler login && npx wrangler pages deploy dist --project-name=djgags
+```
+
+### 3. Point the domain
+
+Add `djgags.com` and `www.djgags.com` in Pages → *Custom domains*, then **at
+GoDaddy** change the nameservers to the two Cloudflare provides. Cloudflare
+issues the certificate and writes the records itself.
+
+`public/_redirects` already folds `www` into the apex so the SEO signals do not
+fork. If you would rather leave DNS at GoDaddy, use Netlify and point GoDaddy's
+`A`/`CNAME` records at it instead — but nameserver delegation is fewer moving
+parts.
+
+Update `site` in [`astro.config.mjs`](astro.config.mjs) if the domain ever
+changes; it drives the sitemap and canonical URLs.
 
 ## Photo credit
 
