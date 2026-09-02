@@ -22,7 +22,8 @@ Derived rather than typed, so they can't go stale:
 - `yearsActive` — computed from `careerStart: 2000`
 - `venueCount` — counted from the venue lists themselves
 
-Pages: `/` `/about` `/mixes` `/experience` `/gallery` `/live` `/book` + 404.
+Pages: `/` `/about` `/mixes` `/experience` `/gallery` `/instagram` `/book` + 404.
+(`/live` was the old name for `/instagram`; `public/_redirects` 301s it.)
 
 ## Content status
 
@@ -35,7 +36,7 @@ Pages: `/` `/about` `/mixes` `/experience` `/gallery` `/live` `/book` + 404.
 | Logo | ✅ Raster crop from the press kit (no vector exists); a true vector redraw would be sharper |
 | Instagram handle | ✅ `@djgagsofficial`, confirmed by the client |
 | Mixes | ⬜ `mixes` array is empty; page shows an honest "coming soon" until embeds are added |
-| Instagram feed on `/live` | ✅ Behold widget wired (feed `xbKVMdkYSAiR4l94BxqO`) — the feed's **domain whitelist** in the Behold dashboard must list every host it is served from, or the feed returns 403 `notWhitelisted` |
+| Instagram feed on `/instagram` | ✅ Behold widget wired (feed `xbKVMdkYSAiR4l94BxqO`) — the feed's **domain whitelist** in the Behold dashboard must list every host it is served from, or the feed returns 403 `notWhitelisted` |
 | YouTube / SoundCloud | ⬜ Empty strings in `contact` — the footer icons stay hidden until filled |
 
 ### Adding mixes
@@ -45,7 +46,7 @@ page switches from the empty state to the player rack automatically.
 
 ### The Instagram feed
 
-`/live` embeds a [Behold](https://behold.so) widget. Behold serves a cached feed,
+`/instagram` embeds a [Behold](https://behold.so) widget, under a profile header that hydrates from the same feed (handle, bio, avatar, follower count) so it can never drift from Instagram. Every write there is guarded — if the request fails, the static fallbacks stand. Behold serves a cached feed,
 so Instagram rate-limiting degrades that section rather than breaking the page.
 Layout, post count and the domain whitelist are configured in the Behold
 dashboard — only the feed id lives in this repo.

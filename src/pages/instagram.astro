@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import { contact, images, genres } from '../data/site';
+
+/**
+ * Profile fallbacks. The header hydrates from the live Behold feed on load,
+ * so these only show if that request fails — they must therefore stay
+ * plausible rather than precise, and never claim a follower count that
+ * could be read as current.
+ */
+const fallbackBio = 'HipHop / Afro / Bass · DJ & Co-Founder @soulcityind';
+---
+
+<Base
+  title="Instagram"
+  description={`Follow DJ Gags on Instagram — @${contact.instagram}. Clips, crowds and behind-the-booth moments from every night.`}
+>
+  <!-- Profile header. Deliberately shaped like an Instagram profile so a
+       visitor knows within a second exactly what this page is. -->
+  <section class="relative overflow-hidden border-b border-line">
+    <img
+      src={images.daytime}
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 h-full w-full object-cover object-center"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-ink/85"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/60"></div>
+
+    <div class="relative mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
+      <p class="eyebrow">On Instagram</p>
+
+      <div class="mt-7 flex flex-col gap-7 sm:flex-row sm:items-center sm:gap-9">
+        <img
+          id="ig-avatar"
+          src={images.portrait}
+          alt={`DJ Gags — @${contact.instagram} profile picture`}
+          class="h-28 w-28 shrink-0 rounded-full border-2 border-gold object-cover object-top sm:h-36 sm:w-36"
+          decoding="async"
+        />
+
+        <div class="min-w-0">
+          <h1 class="font-display text-[clamp(2.25rem,7vw,4rem)] leading-none text-bone">
+            @{contact.instagram}
+          </h1>
+
+          <p id="ig-followers" class="mt-3 text-[13px] uppercase tracking-[0.16em] text-gold">
+            <!-- Replaced with the live count once the feed responds. -->
+          </p>
+
+          <p id="ig-bio" class="mt-3 max-w-md text-[15px] leading-relaxed text-body">
+            {fallbackBio}
+          </p>
+
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href={contact.instagramUrl} rel="noopener" target="_blank" class="btn btn-primary">
+              Follow on Instagram
+            </a>
+            <a href="/book" class="btn btn-ghost">Book Him</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-9 max-w-xl text-[15px] leading-relaxed text-muted">
+        Everything below is pulled live from his Instagram — the sets, the crowds,
+        the rooms as they actually happen. Tap any post to open it on Instagram.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-b border-line py-14 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Recent Posts</p>
+          <h2 class="mt-3 font-display text-[clamp(1.75rem,4vw,2.5rem)] text-bone">
+            Straight from the feed
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {
+            genres.map((g) => (
+              <span class="border border-line bg-surface px-3 py-1.5 text-[11px] tracking-[0.06em] text-muted">
+                {g}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <!--
+        Behold widget (behold.so). Serves a cached feed, so Instagram
+        rate-limiting degrades this section rather than breaking the page.
+        Layout, post count and the domain whitelist are configured in the
+        Behold dashboard — only the feed id lives here.
+      -->
+      <div class="behold-frame border border-line bg-surface p-4 sm:p-6">
+        <behold-widget feed-id="xbKVMdkYSAiR4l94BxqO"></behold-widget>
+      </div>
+
+      <p class="mt-6 text-[13px] text-muted">
+        More at
+        <a
+          href={contact.instagramUrl}
+          rel="noopener"
+          target="_blank"
+          class="text-gold underline underline-offset-4">@{contact.instagram}</a
+        >.
+      </p>
+    </div>
+  </section>
+
+  <BookingCTA />
+</Base>
+
+<!-- is:inline keeps Astro from bundling a third-party loader that expects to
+     run as-is. -->
+<script is:inline>
+  (() => {
+    if (window.__bhldScript) return;
+    window.__bhldScript = true;
+    const d = document,
+      s = d.createElement('script');
+    s.type = 'module';
+    s.src = 'https://w.behold.so/widget.js';
+    setTimeout(() => {
+      d.head.append(s);
+    }, 0);
+  })();
+</script>
+
+<!-- Hydrate the profile header from the same feed the widget uses, so the
+     handle, bio, avatar and follower count can never drift from Instagram.
+     Every write is guarded: if the request fails the static fallbacks stand. -->
+<script is:inline>
+  (async () => {
+    try {
+      const res = await fetch('https://feeds.behold.so/xbKVMdkYSAiR4l94BxqO');
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (typeof data.followersCount === 'number') {
+        const el = document.getElementById('ig-followers');
+        if (el) el.textContent = `${data.followersCount.toLocaleString('en-IN')} followers`;
+      }
+      if (data.biography) {
+        const el = document.getElementById('ig-bio');
+        if (el) el.textContent = data.biography;
+      }
+      if (data.profilePictureUrl) {
+        const el = document.getElementById('ig-avatar');
+        // Only swap once the real avatar has decoded, so a failed load
+        // leaves the press portrait in place rather than a broken image.
+        if (el) {
+          const probe = new Image();
+          probe.onload = () => {
+            el.src = data.profilePictureUrl;
+            el.classList.remove('object-top');
+          };
+          probe.src = data.profilePictureUrl;
+        }
+      }
+    } catch {
+      /* Static fallbacks already render; nothing to do. */
+    }
+  })();
+</script>
+
+<style>
+  /* The widget is a web component with its own shadow DOM, so it can only be
+     sized from the outside — hence the wrapper rather than deep selectors. */
+  .behold-frame behold-widget {
+    display: block;
+    min-height: 12rem;
+  }
+</style>

@@ -214,7 +214,7 @@ export const nav = [
   { href: '/mixes', label: 'Mixes' },
   { href: '/experience', label: 'Experience' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/live', label: 'Live' },
+  { href: '/instagram', label: 'Instagram' },
 ] as const;
 
 /** Pre-filled WhatsApp enquiry link used by every "WhatsApp" button. */

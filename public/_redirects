@@ -1,0 +1,3 @@
+# /live was renamed to /instagram; keep any shared links working.
+/live      /instagram  301
+/live/     /instagram  301
