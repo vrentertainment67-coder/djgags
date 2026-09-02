@@ -2,9 +2,17 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "djgags",
   "compatibility_date": "2026-09-03",
+  // Declaring `routes` disables workers.dev by default; keep it on so the
+  // site stays reachable while nameservers propagate.
+  "workers_dev": true,
   // Assets-only Worker: no `main` script needed, Cloudflare serves dist/
   // directly. Workers is the recommended target for new projects; Pages is
   // in maintenance for new deploys.
+  // Custom domain. Cloudflare manages the apex DNS record for this route,
+  // replacing the GoDaddy parking A records once the zone is active.
+  "routes": [
+    { "pattern": "djgags.com", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./dist",
     // Astro emits a real 404.html, so serve it rather than an SPA fallback.
