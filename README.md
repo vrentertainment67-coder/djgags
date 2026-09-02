@@ -35,7 +35,7 @@ Pages: `/` `/about` `/mixes` `/experience` `/gallery` `/live` `/book` + 404.
 | Logo | ✅ Raster crop from the press kit (no vector exists); a true vector redraw would be sharper |
 | Instagram handle | ✅ `@djgagsofficial`, confirmed by the client |
 | Mixes | ⬜ `mixes` array is empty; page shows an honest "coming soon" until embeds are added |
-| Instagram feed on `/live` | ⬜ Mount point ready, widget not connected |
+| Instagram feed on `/live` | ✅ Behold widget wired (feed `xbKVMdkYSAiR4l94BxqO`) — the feed's **domain whitelist** in the Behold dashboard must list every host it is served from, or the feed returns 403 `notWhitelisted` |
 | YouTube / SoundCloud | ⬜ Empty strings in `contact` — the footer icons stay hidden until filled |
 
 ### Adding mixes
@@ -43,12 +43,20 @@ Pages: `/` `/about` `/mixes` `/experience` `/gallery` `/live` `/book` + 404.
 Paste SoundCloud or YouTube embed URLs into the `mixes` array in `site.ts`. The
 page switches from the empty state to the player rack automatically.
 
-### Connecting the Instagram feed
+### The Instagram feed
 
-In [`src/pages/live.astro`](src/pages/live.astro), replace the placeholder inside
-`#instagram-feed`. Recommended: **[Behold](https://behold.so)** — it serves a
-cached JSON feed, so the page does not slow down or break when Instagram
-rate-limits, which is how the cheaper widgets usually fail.
+`/live` embeds a [Behold](https://behold.so) widget. Behold serves a cached feed,
+so Instagram rate-limiting degrades that section rather than breaking the page.
+Layout, post count and the domain whitelist are configured in the Behold
+dashboard — only the feed id lives in this repo.
+
+The loader carries `is:inline` so Astro does not bundle a third-party script that
+expects to run untouched.
+
+**If the grid renders empty**, check the browser console for a 403 with
+`errorCode: "notWhitelisted"`. That means the host serving the page is missing
+from the feed's *Advanced → domain whitelist* in Behold. It must list every host
+the site is served from — the apex **and** the `*.workers.dev` fallback.
 
 ## Design
 
