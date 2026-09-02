@@ -1,0 +1,33 @@
+---
+interface Props {
+  /** Rendered height. The mark's own 1054×330 ratio sets the width. */
+  height?: string;
+  class?: string;
+}
+const { height = '1.75rem', class: className = '' } = Astro.props;
+---
+
+<span
+  class:list={['wordmark block', className]}
+  style={`height:${height}`}
+  role="img"
+  aria-label="DJ Gags"
+>
+</span>
+
+<style>
+  /* mask-image lets the wordmark inherit currentColor instead of shipping a
+     separate asset per colour. aspect-ratio comes from the source art. */
+  .wordmark {
+    aspect-ratio: 1054 / 330;
+    background-color: currentColor;
+    -webkit-mask-image: url('/logo-djgags.png');
+    mask-image: url('/logo-djgags.png');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: left center;
+    mask-position: left center;
+  }
+</style>
