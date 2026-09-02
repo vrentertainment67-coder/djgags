@@ -75,39 +75,51 @@ at the endpoint and delete the submit handler at the bottom of the file.
 
 ## Deploying
 
-Static output. `wrangler.toml`, `public/_headers` and `public/_redirects` are
-already configured for **Cloudflare Pages** (free, fast in India, DNS in the same
-place). The git repo is initialised with `origin` set to
-`github.com/vrentertainment67-coder/djgags` — it just needs creating and pushing.
+**Live now:** https://djgags.vrentertainment67.workers.dev
 
-### 1. Create the GitHub repo and push
+Deployed as an **assets-only Worker** (Workers Static Assets), configured in
+[`wrangler.jsonc`](wrangler.jsonc). Wrangler steers all new projects to Workers
+rather than Pages, so that is the target here. There is no `main` script —
+Cloudflare serves `dist/` directly.
 
-Create an **empty** repo named `djgags` at https://github.com/new (no README, no
-.gitignore — this repo already has both), then:
-
-```bash
-git push -u origin main
-```
-
-### 2. Connect Cloudflare Pages
-
-Either through the dashboard — *Workers & Pages* → *Create* → *Pages* → connect
-the repo, build command `npm run build`, output directory `dist` — or from here:
+### Redeploying
 
 ```bash
-npx wrangler login && npx wrangler pages deploy dist --project-name=djgags
+npm run build && npx wrangler deploy
 ```
 
-### 3. Point the domain
+That is the whole loop. This is a direct-upload Worker, so pushing to GitHub does
+**not** trigger a deploy; run the command above. To get auto-deploy on push
+instead, connect the repo under *Workers & Pages* → the `djgags` Worker →
+*Settings* → *Builds*.
 
-Add `djgags.com` and `www.djgags.com` in Pages → *Custom domains*, then **at
-GoDaddy** change the nameservers to the two Cloudflare provides. Cloudflare
-issues the certificate and writes the records itself.
+### Pointing djgags.com at it
 
-`public/_redirects` already folds `www` into the apex so the SEO signals do not
-fork. If you would rather leave DNS at GoDaddy, use Netlify and point GoDaddy's
-`A`/`CNAME` records at it instead — but nameserver delegation is fewer moving
-parts.
+The domain is registered at GoDaddy and the zone is not yet on Cloudflare, so
+this part has to happen in the dashboard:
+
+1. Cloudflare dashboard → *Add a site* → `djgags.com`.
+2. Cloudflare gives you two nameservers. At GoDaddy: *My Products* → domain →
+   *Nameservers* → *Change* → *I'll use my own*, and enter both. Propagation is
+   usually under an hour.
+3. Once the zone is active: the `djgags` Worker → *Settings* → *Domains & Routes*
+   → *Add* → *Custom domain* → `djgags.com`. The certificate is issued
+   automatically.
+
+### The www → apex redirect
+
+Workers Static Assets rejects absolute URLs in `_redirects`, so this cannot live
+in the repo. After the zone is active, add a zone-level **Redirect Rule**:
+*Rules* → *Redirect Rules* → *Create*, matching `hostname eq "www.djgags.com"`,
+dynamic redirect to `concat("https://djgags.com", http.request.uri.path)`, status
+301. Without it, only the apex resolves.
+
+### Headers
+
+[`public/_headers`](public/_headers) **is** honoured by Workers Static Assets and
+is verified live: `immutable` year-long caching on `/_astro/*` (filenames are
+fingerprinted), a week on `/images/*`, plus `X-Content-Type-Options`,
+`Referrer-Policy`, `X-Frame-Options` and `Permissions-Policy` on everything.
 
 Update `site` in [`astro.config.mjs`](astro.config.mjs) if the domain ever
 changes; it drives the sitemap and canonical URLs.
