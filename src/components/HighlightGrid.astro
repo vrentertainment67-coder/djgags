@@ -1,0 +1,39 @@
+---
+import SectionHead from './SectionHead.astro';
+import { images } from '../data/site';
+
+const shots = [
+  { src: images.booth, alt: 'DJ Gags mid-set behind the CDJs, shot from the floor', caption: 'Peak hour' },
+  { src: images.hero, alt: 'DJ Gags with arms raised, club crowd behind him', caption: 'The drop' },
+  { src: images.daytime, alt: 'DJ Gags playing an outdoor daytime set', caption: 'Day event' },
+];
+---
+
+<section class="border-b border-line py-20 sm:py-28">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <SectionHead
+      eyebrow="The Evidence"
+      title="What a Night Looks Like"
+      lede="Not a mood board. Actual rooms, actual crowds, actual nights."
+    />
+
+    <div class="grid gap-4 sm:grid-cols-3">
+      {
+        shots.map((shot) => (
+          <figure class="group relative overflow-hidden border border-line">
+            <img
+              src={shot.src}
+              alt={shot.alt}
+              loading="lazy"
+              decoding="async"
+              class="aspect-[4/5] w-full object-cover grayscale transition duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
+            />
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink to-transparent px-4 pb-3 pt-10 text-[10px] uppercase tracking-[0.18em] text-bone">
+              {shot.caption}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

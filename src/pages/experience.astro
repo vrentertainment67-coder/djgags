@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import SectionHead from '../components/SectionHead.astro';
+import {
+  tracks, residencies, majorShows, venuesByCity, campuses, genres, images, venueCount,
+} from '../data/site';
+---
+
+<Base
+  title="Experience"
+  description={`Six current residencies, Goa NYE main stages, ${venueCount}+ venues and 40+ campus festivals across India.`}
+>
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <p class="eyebrow">The Résumé</p>
+      <h1 class="mt-5 max-w-2xl font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.92] text-bone">
+        Where the nights happened.
+      </h1>
+    </div>
+  </section>
+
+  <!-- Residencies lead, with the Embassy pulled out as the flagship. -->
+  <section class="border-y border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <SectionHead
+        eyebrow="Right Now"
+        title="Current Residencies"
+        lede="Six rooms running concurrently — the same crowds, every week, expecting something new."
+      />
+      <ul class="grid gap-2 sm:grid-cols-2">
+        {
+          residencies.map((r) => (
+            <li
+              class:list={[
+                'flex items-center gap-3 border px-4 py-4',
+                r.flagship ? 'border-gold bg-surface-2 sm:col-span-2' : 'border-line bg-surface',
+              ]}
+            >
+              <span class="text-xs text-gold" aria-hidden="true">◈</span>
+              <span
+                class:list={[
+                  'flex-1 font-medium text-bone',
+                  r.flagship ? 'font-display text-xl tracking-[0.04em]' : 'text-sm',
+                ]}
+              >
+                {r.name}
+              </span>
+              <span class="text-[10px] uppercase tracking-[0.14em] text-muted">{r.city}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-b border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <SectionHead eyebrow="Scale" title="Major Shows & Festivals" />
+      <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          majorShows.map((s) => (
+            <div class="border border-line bg-surface px-5 py-5 text-sm font-medium text-bone">
+              {s}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <SectionHead eyebrow="Service Tracks" title="What He's Booked For" />
+      <div class="space-y-4">
+        {
+          tracks.map((t) => (
+            <article class="border border-line bg-surface p-7 sm:p-9">
+              <h3 class="font-display text-2xl text-bone">{t.title}</h3>
+              <p class="mt-2 font-serif text-base italic text-gold">{t.lead}</p>
+              <p class="mt-5 max-w-2xl text-[15px] leading-relaxed text-body">{t.body}</p>
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {t.points.map((p) => (
+                  <li class="border border-line px-3 py-1.5 text-[11px] tracking-[0.06em] text-muted">
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- The full venue book. Collapsed by default: it is proof of depth, but
+       fifty names unrolled would bury the page. -->
+  <section class="border-b border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <SectionHead
+        eyebrow="The Venue Book"
+        title={`${venueCount} Rooms, 7 Cities`}
+        lede="Every club, café and lounge on the list. Open a city to read it."
+      />
+      <div class="space-y-2">
+        {
+          venuesByCity.map((group, i) => (
+            <details class="group border border-line bg-surface" open={i === 0}>
+              <summary class="flex cursor-pointer list-none items-center gap-4 px-6 py-5">
+                <span class="font-display text-xl text-bone">{group.city}</span>
+                <span class="text-[10px] uppercase tracking-[0.14em] text-muted">
+                  {group.venues.length} {group.venues.length === 1 ? 'venue' : 'venues'}
+                </span>
+                <span
+                  class="ml-auto text-gold transition-transform group-open:rotate-45"
+                  aria-hidden="true">+</span
+                >
+              </summary>
+              <div class="border-t border-line px-6 py-5">
+                {'note' in group && group.note && (
+                  <p class="mb-4 text-[11px] uppercase tracking-[0.14em] text-muted">
+                    {group.note}
+                  </p>
+                )}
+                <ul class="flex flex-wrap gap-2">
+                  {group.venues.map((v) => (
+                    <li class="border border-line px-3 py-1.5 text-[12px] text-body">{v}</li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <SectionHead
+        eyebrow="The Campus Circuit"
+        title={`${campuses.length} College Festivals`}
+        lede="The hardest crowd research in the country — young, enormous, and completely new every three years."
+      />
+      <ul class="flex flex-wrap gap-2">
+        {
+          campuses.map((c) => (
+            <li class="border border-line bg-surface px-3.5 py-2 text-[12px] text-body">{c}</li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-b border-line py-16 sm:py-20">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 sm:px-8 md:grid-cols-2">
+      <div class="border border-line">
+        <img
+          src={images.booth}
+          alt="DJ Gags mid-set behind the CDJs"
+          loading="lazy"
+          decoding="async"
+          class="aspect-square w-full object-cover"
+        />
+      </div>
+      <div>
+        <p class="eyebrow">The Sound</p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          {
+            genres.map((g) => (
+              <span class="border border-line bg-surface px-4 py-2 text-[12px] tracking-[0.06em] text-body">
+                {g}
+              </span>
+            ))
+          }
+        </div>
+        <p class="mt-7 max-w-md text-[15px] leading-relaxed text-muted">
+          Hip Hop, Afro, Bass and House — and the freedom to leave all four the moment
+          the room asks for something else.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BookingCTA />
+</Base>

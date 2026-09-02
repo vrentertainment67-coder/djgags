@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import StatsBar from '../components/StatsBar.astro';
+import HighlightGrid from '../components/HighlightGrid.astro';
+import AboutTeaser from '../components/AboutTeaser.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import SectionHead from '../components/SectionHead.astro';
+import { tracks, genres, site, residencies, majorShows } from '../data/site';
+---
+
+<Base title={site.name} flush>
+  <Hero />
+  <StatsBar />
+  <HighlightGrid />
+
+  <section class="border-b border-line py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <SectionHead
+        eyebrow="The Résumé"
+        title="Four Kinds of Night"
+        lede="Residency floor, festival stage, wedding floor, campus ground. Different rules, same job."
+      />
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          tracks.map((t) => (
+            <a
+              href="/experience"
+              class="group border border-line bg-surface p-7 transition-colors hover:border-gold-dim"
+            >
+              <h3 class="font-display text-xl text-bone transition-colors group-hover:text-gold">
+                {t.title}
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-muted">{t.lead}</p>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 border-t border-line pt-8">
+        <p class="eyebrow">The Sound</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {
+            genres.map((g) => (
+              <span class="border border-line bg-surface px-3.5 py-1.5 text-[11px] tracking-[0.08em] text-body">
+                {g}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <AboutTeaser />
+  <BookingCTA />
+</Base>

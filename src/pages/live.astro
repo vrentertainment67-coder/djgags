@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import { contact } from '../data/site';
+---
+
+<Base
+  title="Live"
+  description="Recent nights, clips and moments from DJ Gags — straight from Instagram."
+>
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <p class="eyebrow">Live Moments</p>
+      <h1 class="mt-5 max-w-2xl font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.92] text-bone">
+        The nights, as they happen.
+      </h1>
+      <p class="mt-6 max-w-lg text-[15px] leading-relaxed text-muted">
+        Clips, crowds and behind-the-booth moments — updated from Instagram.
+      </p>
+      <a href={contact.instagramUrl} rel="noopener" class="btn btn-primary mt-8">
+        Follow @{contact.instagram}
+      </a>
+    </div>
+  </section>
+
+  <section class="border-y border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <!--
+        INSTAGRAM FEED MOUNT POINT
+        ──────────────────────────
+        Paste the embed snippet from Behold (behold.so — free tier, fast, no
+        branding) or Elfsight inside this div, replacing the placeholder.
+
+        Behold is the recommendation: it serves a cached JSON feed, so it does
+        not slow the page down or break when Instagram rate-limits, which is
+        the usual failure mode of the cheaper widgets.
+      -->
+      <div id="instagram-feed" class="border border-line bg-surface px-6 py-16 text-center sm:py-24">
+        <p class="font-display text-2xl text-bone">Feed Connects at Launch</p>
+        <p class="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-muted">
+          The live Instagram grid mounts here once the account is linked.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BookingCTA />
+</Base>

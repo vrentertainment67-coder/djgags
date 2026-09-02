@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import { images, site, yearsActive, influences, genres, contact, venueCount } from '../data/site';
+---
+
+<Base
+  title="About"
+  description={`Gagandip Singh — DJ Gags. ${yearsActive} years behind the decks, from a first show in 2000 to six residencies, Goa main stages and the country's biggest campus circuit.`}
+>
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <p class="eyebrow">The Story</p>
+      <h1 class="mt-5 max-w-3xl font-display text-[clamp(2.5rem,8vw,5.5rem)] leading-[0.92] text-bone">
+        Calm off stage. A hive mind on it.
+      </h1>
+    </div>
+  </section>
+
+  <section class="border-y border-line py-14 sm:py-20">
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-16">
+      <div class="space-y-4">
+        <div class="border border-line">
+          <img
+            src={images.portrait}
+            alt="Studio portrait of DJ Gags"
+            class="w-full object-cover"
+            decoding="async"
+          />
+        </div>
+        <div class="border border-line bg-surface p-6">
+          <p class="eyebrow">At a Glance</p>
+          <dl class="mt-4 space-y-3 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-muted">Name</dt>
+              <dd class="text-right text-bone">{site.legalName}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-muted">Base</dt>
+              <dd class="text-right text-bone">{site.city}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-muted">Active since</dt>
+              <dd class="text-right text-bone">{site.careerStart}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-muted">Sound</dt>
+              <dd class="text-right text-bone">{genres.join(' · ')}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-muted">Studio</dt>
+              <dd class="text-right text-bone">{contact.label}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="space-y-6 text-[15px] leading-[1.85] text-body">
+        <p class="font-serif text-xl italic leading-relaxed text-bone sm:text-2xl">
+          Gagandip Singh has been chasing the stage since he was eight years old.
+        </p>
+        <p>
+          He came up on retro pop — {influences.retro.join(', ')} — the records built
+          to move a room of strangers who had nothing else in common. That instinct
+          never left. It just found better equipment.
+        </p>
+        <p>
+          The first show was in {site.careerStart}, a modest club, back when the Indian
+          DJ scene was still deciding whether it existed. {yearsActive} years later
+          the count runs to {venueCount}-plus venues, six concurrent residencies, Goa
+          New Year main stages, and a college circuit that reaches from IIT Delhi to
+          SRCC to AIIMS.
+        </p>
+        <blockquote class="border-l-2 border-gold py-1 pl-5 text-body">
+          <p class="italic">
+            “I'm generally this calm and patient person who loves music and enjoys his
+            time with family. But when I'm on stage, it's a whole different story. In
+            that moment it's like I possess a hive mind — like I know what they want.
+            I love the energy of being on stage. I can be whoever I want to be.”
+          </p>
+        </blockquote>
+        <p>
+          The sound is {genres.slice(0, -1).join(', ')} and {genres.at(-1)} — built for
+          floors, not for playlists. And increasingly it is his own: inspired by
+          {' '}{influences.production.join(' and ')}, he spends most of his time off the
+          circuit in the studio, producing and remixing under {contact.label}.
+        </p>
+        <p>
+          Forty-plus campus festivals is an unusual line on any DJ's résumé. It is also
+          the most honest one. A college crowd is young, enormous, and completely
+          replaced every three years — there is no coasting on a set that worked last
+          season. Play forty of those and you stop guessing what a floor wants.
+        </p>
+        <p>
+          Next: touring internationally, with the same records that have been working
+          rooms across India for {yearsActive} years.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BookingCTA />
+</Base>

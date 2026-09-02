@@ -1,0 +1,91 @@
+---
+import { nav, site } from '../data/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path === `${href}/`;
+---
+
+<header
+  id="site-nav"
+  class="fixed inset-x-0 top-0 z-40 border-b border-transparent transition-colors duration-300"
+>
+  <div class="mx-auto flex max-w-6xl items-center gap-6 px-5 py-4 sm:px-8">
+    <a
+      href="/"
+      class="font-display text-2xl leading-none tracking-[0.08em] text-bone transition-colors hover:text-gold"
+    >
+      {site.name.toUpperCase()}
+    </a>
+
+    <nav class="ml-auto hidden items-center gap-7 md:flex" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'text-[11px] font-medium uppercase tracking-[0.16em] transition-colors',
+              isActive(item.href) ? 'text-gold' : 'text-muted hover:text-bone',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a href="/book" class="btn btn-primary ml-auto px-5 py-2.5 md:ml-0">Book Now</a>
+
+    <button
+      type="button"
+      id="nav-toggle"
+      class="text-muted transition-colors hover:text-bone md:hidden"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" hidden class="border-t border-line bg-ink md:hidden">
+    <nav class="mx-auto flex max-w-6xl flex-col px-5 py-2" aria-label="Mobile">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="border-b border-line py-3.5 text-[12px] font-medium uppercase tracking-[0.16em] text-body last:border-0"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-nav')!;
+  const toggle = document.getElementById('nav-toggle')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  // Nav starts transparent over the hero, then takes on a solid ground
+  // once the page scrolls so links stay readable against photography.
+  const onScroll = () => {
+    const scrolled = window.scrollY > 40;
+    header.classList.toggle('bg-ink/95', scrolled);
+    header.classList.toggle('backdrop-blur-sm', scrolled);
+    header.classList.toggle('border-line', scrolled);
+    header.classList.toggle('border-transparent', !scrolled);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  toggle.addEventListener('click', () => {
+    const open = menu.hidden;
+    menu.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+</script>

@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+
+@import '@fontsource/bebas-neue/400.css';
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource/dm-serif-display/400.css';
+@import '@fontsource/dm-serif-display/400-italic.css';
+
+/* ── Dark Luxury Editorial ────────────────────────────────────────────
+   One committed dark palette. This site does not follow the OS light
+   theme on purpose: the brand is a dark room. ------------------------ */
+@theme {
+  /* Sampled from the official press kit: #FBEB06 on #24282E. The dark
+     family is cooled to match that grey rather than the warmer black the
+     strategy document assumed. */
+  --color-ink: #0d0f12;
+  --color-surface: #171a1f;
+  --color-surface-2: #1e222a;
+  --color-line: #2a2f38;
+  --color-gold: #fbeb06;
+  --color-gold-dim: #8f860a;
+  --color-bone: #f2f3f5;
+  --color-muted: #7c838f;
+  --color-body: #c3c8d1;
+
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --font-sans: 'DM Sans Variable', system-ui, sans-serif;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-ink);
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    color: var(--color-bone);
+    letter-spacing: 0.03em;
+    line-height: 0.95;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Small gold eyebrow with a leading rule — used above every section. */
+  .eyebrow {
+    @apply flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-6 bg-gold;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 border px-7 py-3.5
+           text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-200;
+  }
+  .btn-primary {
+    @apply border-gold text-gold hover:bg-gold hover:text-ink;
+  }
+  .btn-ghost {
+    @apply border-line text-body hover:border-bone hover:text-bone;
+  }
+
+  .rule {
+    @apply h-px w-full bg-line;
+  }
+}
+
+/* Respect the user's motion preference for every animation on the site. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

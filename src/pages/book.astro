@@ -1,0 +1,222 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact, tracks, whatsappLink } from '../data/site';
+---
+
+<Base
+  title="Book"
+  description="Check DJ Gags' availability for club nights, festivals, weddings, campus shows and corporate events."
+>
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <p class="eyebrow">Bookings</p>
+      <h1 class="mt-5 max-w-2xl font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.92] text-bone">
+        Check availability.
+      </h1>
+      <p class="mt-6 max-w-lg text-[15px] leading-relaxed text-muted">
+        Tell us the date and the room. You'll hear back {contact.responseTime}.
+        Weekend, wedding-season and festival dates go early.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-line py-14 sm:py-20">
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-16">
+      <!--
+        No backend required. On submit the form composes a pre-filled
+        WhatsApp message — the channel event enquiries actually happen on in
+        India, and it means zero inbox to monitor and nothing to break.
+        To switch to a stored-lead flow later, point `action` at Supabase or
+        Formspree and drop the submit handler.
+      -->
+      <form id="booking-form" class="space-y-5" novalidate>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="name" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+              Your name *
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone placeholder:text-muted focus:border-gold focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="phone" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+              Phone *
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              required
+              autocomplete="tel"
+              class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone placeholder:text-muted focus:border-gold focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="eventType" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+              Event type *
+            </label>
+            <select
+              id="eventType"
+              name="eventType"
+              required
+              class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone focus:border-gold focus:outline-none"
+            >
+              <option value="">Select…</option>
+              {tracks.map((t) => <option value={t.title}>{t.title}</option>)}
+              <option value="Something else">Something else</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="date" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+              Event date
+            </label>
+            <input
+              id="date"
+              name="date"
+              type="date"
+              class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone focus:border-gold focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="city" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+              City / venue
+            </label>
+            <input
+              id="city"
+              name="city"
+              type="text"
+              class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone placeholder:text-muted focus:border-gold focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="guests" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+              Approx. guests
+            </label>
+            <input
+              id="guests"
+              name="guests"
+              type="text"
+              inputmode="numeric"
+              class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone placeholder:text-muted focus:border-gold focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="message" class="mb-2 block text-[10px] uppercase tracking-[0.18em] text-gold">
+            Anything else
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            class="w-full border border-line bg-surface px-4 py-3 text-[15px] text-bone placeholder:text-muted focus:border-gold focus:outline-none"
+          ></textarea>
+        </div>
+
+        <p id="form-error" role="alert" class="hidden text-[13px] text-[#d05a5a]"></p>
+
+        <button type="submit" class="btn btn-primary w-full sm:w-auto">
+          Send Enquiry via WhatsApp
+        </button>
+
+        <p class="text-[13px] leading-relaxed text-muted">
+          This opens WhatsApp with your details filled in — check it and hit send.
+          Prefer email? <a
+            href={`mailto:${contact.email}`}
+            class="text-gold underline underline-offset-4">{contact.email}</a
+          >
+        </p>
+      </form>
+
+      <aside class="space-y-4">
+        <div class="border border-line bg-surface p-7">
+          <p class="eyebrow">Direct</p>
+          <a
+            href={whatsappLink()}
+            rel="noopener"
+            class="mt-4 block font-display text-2xl text-bone transition-colors hover:text-gold"
+            >{contact.whatsappDisplay}</a
+          >
+          <a
+            href={`mailto:${contact.email}`}
+            class="mt-2 block text-[14px] text-muted transition-colors hover:text-gold"
+            >{contact.email}</a
+          >
+        </div>
+
+        <div class="border border-line bg-surface p-7">
+          <p class="eyebrow">Response Time</p>
+          <p class="mt-4 text-[15px] leading-relaxed text-body">
+            Every enquiry gets a reply {contact.responseTime}. If a date is already
+            held, you'll be told straight away rather than left waiting.
+          </p>
+        </div>
+
+        <div class="border border-gold-dim bg-surface p-7">
+          <p class="eyebrow">Before You Write</p>
+          <ul class="mt-4 space-y-2.5 text-[14px] leading-relaxed text-body">
+            <li>— The date, even if it's provisional</li>
+            <li>— City and venue, if you have one</li>
+            <li>— Rough guest count</li>
+            <li>— Whether sound and lighting are covered</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { contact } from '../data/site';
+
+  const form = document.getElementById('booking-form') as HTMLFormElement;
+  const errorEl = document.getElementById('form-error') as HTMLParagraphElement;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const get = (key: string) => String(data.get(key) ?? '').trim();
+
+    // Validate here rather than relying on `required` alone, so the message
+    // is one clear sentence instead of three separate browser bubbles.
+    const missing = (['name', 'phone', 'eventType'] as const).filter((k) => !get(k));
+    if (missing.length > 0) {
+      errorEl.textContent = 'Please add your name, phone number and event type.';
+      errorEl.classList.remove('hidden');
+      form.querySelector<HTMLElement>(`[name="${missing[0]}"]`)?.focus();
+      return;
+    }
+    errorEl.classList.add('hidden');
+
+    const lines = [
+      'Hi Gags — I would like to check your availability.',
+      '',
+      `Name: ${get('name')}`,
+      `Phone: ${get('phone')}`,
+      `Event: ${get('eventType')}`,
+      get('date') && `Date: ${get('date')}`,
+      get('city') && `City / venue: ${get('city')}`,
+      get('guests') && `Guests: ${get('guests')}`,
+      get('message') && `\n${get('message')}`,
+    ].filter(Boolean);
+
+    window.open(
+      `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`,
+      '_blank',
+      'noopener',
+    );
+  });
+</script>

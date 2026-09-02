@@ -1,0 +1,66 @@
+---
+import { images, residencies, majorShows, yearsActive } from '../data/site';
+// Ticker needs the list twice so the loop has no visible seam.
+const marquee = [...residencies.map((r) => r.name), ...majorShows];
+const ticker = [...marquee, ...marquee];
+---
+
+<section class="relative flex min-h-[92svh] flex-col justify-end overflow-hidden">
+  <!-- Hero photograph. Fetchpriority high: this is the LCP element. -->
+  <img
+    src={images.hero}
+    alt="DJ Gags behind the decks, arms raised, crowd behind him"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+    fetchpriority="high"
+    decoding="async"
+    width="1080"
+    height="720"
+  />
+  <!-- Two-stop scrim: keeps the face readable and the type legible. -->
+  <div class="absolute inset-0 bg-ink/70"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/30"></div>
+
+  <div class="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-32 sm:px-8">
+    <p class="eyebrow">New Delhi · DJ · Producer · Remixer</p>
+
+    <h1 class="mt-6 font-display text-[clamp(3.5rem,13vw,10rem)] leading-[0.88] text-bone">
+      The Room<br />Never Lies.
+    </h1>
+
+    <p class="mt-7 max-w-lg font-serif text-lg italic leading-relaxed text-body sm:text-xl">
+      Hip Hop, Afro, Bass and House. {yearsActive} years, six residencies, and a
+      hundred rooms that had to be won one record at a time.
+    </p>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href="/book" class="btn btn-primary">Check Availability</a>
+      <a href="/mixes" class="btn btn-ghost">Hear a Set</a>
+    </div>
+  </div>
+
+  <!-- Venue ticker. aria-hidden: it's decorative reinforcement of the
+       venue list that /experience states properly. -->
+  <div class="relative border-y border-line bg-ink/80 py-3.5 backdrop-blur-sm" aria-hidden="true">
+    <div class="ticker flex w-max gap-8 whitespace-nowrap">
+      {
+        ticker.map((v) => (
+          <span class="text-[10px] uppercase tracking-[0.2em] text-muted">
+            <span class="mr-2 text-gold">◈</span>
+            {v}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticker {
+    animation: slide 38s linear infinite;
+  }
+  /* The list is duplicated, so translating exactly -50% loops seamlessly. */
+  @keyframes slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+</style>

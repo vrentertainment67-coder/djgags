@@ -1,0 +1,2 @@
+# Send the apex/www split to one canonical host so SEO signals don't fork.
+https://www.djgags.com/*  https://djgags.com/:splat  301

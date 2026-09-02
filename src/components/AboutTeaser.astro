@@ -1,0 +1,36 @@
+---
+import { images } from '../data/site';
+---
+
+<section class="border-b border-line py-20 sm:py-28">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 sm:px-8 md:grid-cols-2 md:gap-16">
+    <div class="border border-line">
+      <img
+        src={images.portrait}
+        alt="Studio portrait of DJ Gags"
+        loading="lazy"
+        decoding="async"
+        class="aspect-[4/5] w-full object-cover object-top"
+      />
+    </div>
+
+    <div>
+      <p class="eyebrow">The Story</p>
+      <blockquote class="mt-6 font-serif text-2xl italic leading-snug text-bone sm:text-3xl">
+        “On stage it's like I possess a hive mind — I know what they want.”
+      </blockquote>
+      <p class="mt-6 text-[15px] leading-relaxed text-body">
+        Gagandip Singh played his first show in 2000 and has not stopped since —
+        club residencies, Goa New Year main stages, and forty-odd college festivals
+        where the crowd is new every single time.
+      </p>
+      <a
+        href="/about"
+        class="mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-gold transition-colors hover:text-bone"
+      >
+        Read the full story
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

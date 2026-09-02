@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import { mixes, whatsappLink } from '../data/site';
+---
+
+<Base title="Mixes" description="Selected sets from DJ Gags — Hip Hop, Afro, Bass and House.">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <p class="eyebrow">Proof of Sound</p>
+      <h1 class="mt-5 max-w-2xl font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.92] text-bone">
+        Selected sets.
+      </h1>
+      <p class="mt-6 max-w-lg text-[15px] leading-relaxed text-muted">
+        Not everything — a few nights that show what the format actually sounds like.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-line py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      {
+        mixes.length > 0 ? (
+          <div class="space-y-5">
+            {mixes.map((mix) => (
+              <article class="border border-line bg-surface p-6">
+                <h2 class="font-display text-xl text-bone">{mix.title}</h2>
+                <p class="mt-1.5 text-[11px] uppercase tracking-[0.16em] text-muted">
+                  {mix.context}
+                </p>
+                <div class="mt-5">
+                  <iframe
+                    src={mix.embed}
+                    title={mix.title}
+                    loading="lazy"
+                    class="h-[166px] w-full border-0"
+                    allow="autoplay; encrypted-media"
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          /* Deliberate empty state. An honest "coming soon" reads far better
+             to a booker than a rack of dead players. */
+          <div class="border border-line bg-surface px-6 py-16 text-center sm:py-24">
+            <p class="font-display text-3xl text-bone">Sets Landing Soon</p>
+            <p class="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-muted">
+              Recordings are being mastered for release. Want to hear something
+              specific — a club set, or something built for your room? Ask, and it
+              comes straight to you.
+            </p>
+            <a
+              href={whatsappLink('Hi Gags — could you send me a sample set?')}
+              rel="noopener"
+              class="btn btn-primary mt-8">Request a Set</a
+            >
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <BookingCTA />
+</Base>

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page Not Found">
+  <section class="flex min-h-[60svh] items-center py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <p class="eyebrow">404</p>
+      <h1 class="mt-5 font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.92] text-bone">
+        Wrong room.
+      </h1>
+      <p class="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+        That page isn't here. The nights, though, are.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="/" class="btn btn-primary">Back to the Floor</a>
+        <a href="/book" class="btn btn-ghost">Check Availability</a>
+      </div>
+    </div>
+  </section>
+</Base>
