@@ -29,9 +29,11 @@ Pages: `/` `/about` `/mixes` `/experience` `/gallery` `/live` `/book` + 404.
 | Area | State |
 |---|---|
 | Bio, venues, residencies, campuses, festivals | ✅ From the official press kit |
+| Weddings track | ⚠️ Confirmed verbally by the client; the press kit evidences none, so that copy cites no venues or counts |
 | Contact — phone, email, Soul City | ✅ From the press kit |
-| Photography | ✅ Four supplied shots wired in |
-| Instagram handle | ⚠️ Guessed as `@djgags` — **confirm before launch** (`contact.instagram`) |
+| Photography | ✅ Four supplied shots wired in — but WhatsApp-compressed; get originals |
+| Logo | ✅ Raster crop from the press kit (no vector exists); a true vector redraw would be sharper |
+| Instagram handle | ✅ `@djgagsofficial`, confirmed by the client |
 | Mixes | ⬜ `mixes` array is empty; page shows an honest "coming soon" until embeds are added |
 | Instagram feed on `/live` | ⬜ Mount point ready, widget not connected |
 | YouTube / SoundCloud | ⬜ Empty strings in `contact` — the footer icons stay hidden until filled |
