@@ -13,7 +13,7 @@ npm run build    # → dist/
 ## How this site is put together
 
 **Everything factual lives in [`src/data/site.ts`](src/data/site.ts).** Venues,
-residencies, campuses, stats, genres, contact details, photo credits. No page
+residencies, campuses, stats, genres and contact details. No page
 hardcodes a fact. Correcting something is a one-line edit in that file, and the
 number in the stats bar and the list on `/experience` both follow.
 
@@ -132,10 +132,3 @@ fingerprinted), a week on `/images/*`, plus `X-Content-Type-Options`,
 
 Update `site` in [`astro.config.mjs`](astro.config.mjs) if the domain ever
 changes; it drives the sitemap and canonical URLs.
-
-## Photo credit
-
-`gags-hero.jpg` carries a visible watermark: **Roy Raymond Henderson
-Photography**. The credit is rendered in the footer, and it is the condition on
-which that image is usable — confirm clearance before launch, and don't crop the
-watermark out without asking.

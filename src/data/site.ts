@@ -201,14 +201,6 @@ export const images = {
   portrait: '/images/gags-portrait.jpg',
 } as const;
 
-/**
- * The hero shot carries a visible watermark, so this credit is not optional
- * courtesy — it is the condition on which the image is usable.
- */
-export const photoCredits = [
-  { name: 'Roy Raymond Henderson Photography', shots: 'Live photography' },
-] as const;
-
 export const nav = [
   { href: '/about', label: 'About' },
   { href: '/mixes', label: 'Mixes' },

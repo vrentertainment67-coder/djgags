@@ -1,5 +1,5 @@
 ---
-import { site, contact, nav, photoCredits, whatsappLink } from '../data/site';
+import { site, contact, nav, whatsappLink } from '../data/site';
 import Wordmark from './Wordmark.astro';
 const year = new Date().getFullYear();
 
@@ -67,17 +67,10 @@ const socials = [
       </div>
     </div>
 
-    <div class="mt-12 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:justify-between">
+    <div class="mt-12 border-t border-line pt-6">
       <p class="text-[10px] uppercase tracking-[0.16em] text-muted">
         © {year} {site.name}
       </p>
-      {
-        photoCredits.length > 0 && (
-          <p class="text-[10px] uppercase tracking-[0.16em] text-muted">
-            {photoCredits.map((c) => `${c.shots}: ${c.name}`).join(' · ')}
-          </p>
-        )
-      }
     </div>
   </div>
 </footer>
